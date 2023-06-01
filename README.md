@@ -1,97 +1,77 @@
-# Requisitos
+# Validador de Senha - Aplicativo Flutter
 
-**Utilizar qualquer linguagem de programação.**
+Este é um aplicativo simples em Flutter que demonstra o uso de um validador de senha em um `TextFormField`. O aplicativo oferece um campo de entrada de texto onde os usuários podem digitar suas senhas, e o validador verifica se a senha atende a determinados critérios, em tempo real.
 
-A ideia é validar a lógica e principalmente a forma como resolveu o problema.
+## Dependências
 
-Vamos querer ouvir como aprendeu, como descobriu e o porquê escolheu fazer assim no seu código.
+O aplicativo utiliza as seguintes dependências:
 
-Não é necessário conhecer todos recursos para resolver o desafio, a proposta é "correr atrás" para aprender e então resolver.
+- `flutter/material.dart`: O framework principal do Flutter para construir interfaces de usuário.
+- `test/password_validator.dart`: Uma biblioteca personalizada de validação de senha.
 
-Sugerimos procurar no Google, Stack Overflow, YouTube, grupos técnicos, amigos, colegas de sala, professor, o que preferir -- _lembra de contar pra gente depois hein!_
+## Função Principal
 
-Não tem prazo específico para terminar, quando acabar nos envie.
+A função `main()` é o ponto de entrada do aplicativo. Ela chama a função `runApp()` para executar o aplicativo. Neste caso, ela cria uma instância do widget `MyApp` e a passa para `runApp()`.
 
-Lembre-se que esse prazo também será levado em consideração, não fique com pressa para terminar rápido se estiver errado ou incompleto, só que também não gaste _um ano_ para terminar 😉
+## Widget MyApp
 
----
+O widget `MyApp` é um widget sem estado que representa a raiz do aplicativo. Ele estende a classe `StatelessWidget` e substitui o método `build()`.
 
-## Problema a ser resolvido
+No método `build()`, é retornado um widget `MaterialApp`, que fornece a estrutura básica para o aplicativo. Ele possui um título, um tema e uma `HomePage` como rota inicial.
 
-Considerando um array de senhas em string, que pode ser uma constante no código, imprimir na tela somente as que forem senhas fortes.
+O tema do aplicativo é personalizado usando a classe `ThemeData`. Neste exemplo, ele define o esquema de cores principal como `Colors.deepPurple` e habilita o uso do Material Design 3.0 com `useMaterial3: true`.
 
-Para uma senha ser forte, ela deve ter:
+## Widget HomePage
 
-- no mínimo 7 caracteres
-- pelo menos uma letra maiúscula
-- pelo menos uma letra minúscula
-- \+ _E se for tranquilo para você, verifica também se tem um caracter especial (dentro dos que você preferir!) 🙂_
+O widget `HomePage` também é um widget sem estado que representa a tela inicial do aplicativo. Ele estende a classe `StatelessWidget` e substitui o método `build()`.
 
----
+No método `build()`, é retornado um widget `Scaffold`, que fornece a estrutura básica de layout para a página. Ele contém um widget `Center`, que é usado para centralizar verticalmente e horizontalmente o widget filho.
 
-### Extra / Bônus
+Dentro do widget `Center`, um widget `Padding` é usado para adicionar espaçamento ao redor do widget filho. Ele contém um widget `TextFormField`, que é um campo de entrada de texto para inserir a senha.
 
-Você ganhará pontos extras se utilizar um repositório Git e enviar sua solução no [GitHub](https://github.com/).
+O `TextFormField` é configurado com uma borda, um texto de dica e um texto de rótulo usando a classe `InputDecoration`. Ele também especifica uma função de validação chamada `getPasswordValidator` para validar a senha digitada.
 
-_(melhor ainda se fizer um fork desse 🤩)_.
+A propriedade `autovalidateMode` é definida como `AutovalidateMode.always`, o que significa que a validação será acionada automaticamente sempre que o usuário inserir ou alterar a senha.
 
-Se você não conhecer o [Git](https://www.google.com/search?q=git), não tem problema nenhum. Pode aprender e nos contar como aprendeu!
+## Função de Validador de Senha
 
-Não precisa virar um especialista, apenas o básico! Só que iremos querer saber como você aprendeu
+A classe `password_validator.dart` contém a implementação do validador de senha personalizado. Ela inclui as seguintes funções:
 
-Queremos avaliar sua capacidade de aprender e de buscar ajuda.
+### `validatePassword(String password)`
 
-Tem muito material pronto e gratuito sobre Git e GitHub, use a internet a seu favor.
+Esta função verifica se a senha fornecida atende aos seguintes critérios:
+- Deve ter pelo menos uma letra minúscula.
+- Deve ter pelo menos uma letra maiúscula.
+- Deve ter pelo menos um caractere especial (como @, #, $, %, ^, &, +, =).
+- Deve ter pelo menos uma letra (maiúscula ou minúscula).
+- Deve ter no mínimo 7 caracteres de comprimento.
 
-De qualquer maneira, isso será útil para toda sua vida enquanto profissional de TI! 👍
+A função utiliza uma expressão regular para verificar se a senha atende a esses critérios. Ela retorna `true` se a senha for válida e `false` caso
 
----
+ contrário.
 
-#### Exemplo
+### `getPasswordValidator(String? value)`
 
-Considerando um array com as strings:
+Esta função é usada como validador para o `TextFormField` na classe `HomePage`. Ela recebe o valor digitado no campo de senha como entrada e retorna uma mensagem de erro caso a senha seja inválida, ou `null` caso a senha seja válida.
 
-- #forTe1
-- senhafraca
-- Qu@s1
-- Voce@Consegue!2023
+A função verifica se o valor fornecido é nulo ou vazio. Se for, considera a senha como válida. Caso contrário, chama a função `validatePassword()` para verificar se a senha é válida. Se for válida, retorna `null`. Caso contrário, retorna a mensagem de erro "Senha inválida".
 
-Será impresso na tela apenas duas linhas:
+## Testes
 
----
-\#forTe1
+A classe de teste `password_validator_test.dart` contém uma série de testes para verificar o comportamento do validador de senha. Os testes realizados são os seguintes:
 
-Voce@Consegue!2023
+1. `test('Valid Password')`: Verifica se a função `validatePassword()` retorna `true` para uma senha válida ("Abc@123").
+2. `test('Invalid Password - Too Short')`: Verifica se a função `validatePassword()` retorna `false` para uma senha inválida devido ao comprimento insuficiente ("Abc123").
+3. `test('Invalid Password - No Capitals')`: Verifica se a função `validatePassword()` retorna `false` para uma senha inválida que não contém letras maiúsculas ("abc@123").
+4. `test('Invalid Password - No Lower Case')`: Verifica se a função `validatePassword()` retorna `false` para uma senha inválida que não contém letras minúsculas ("ABC@123").
+5. `test('Invalid Password - No Special Character')`: Verifica se a função `validatePassword()` retorna `false` para uma senha inválida que não contém caracteres especiais ("Abcdefg").
+6. `test('Valid Password')`: Verifica se a função `validatePassword()` retorna `true` para uma senha válida ("#forTe1").
+7. `test('Valid Password')`: Verifica se a função `validatePassword()` retorna `true` para uma senha válida ("Voce@Consegue!2023").
+8. `test('Valid Password')`: Verifica se a função `validatePassword()` retorna `false` para uma senha inválida ("senhafraca").
+9. `test('Valid Password')`: Verifica se a função `validatePassword()` retorna `false` para uma senha inválida ("Qu@s1").
 
----
+Esses testes garantem que o validador de senha está funcionando corretamente e valida as senhas de acordo com os critérios estabelecidos.
 
-Já que são as únicas que atendem os requisitos para uma senha forte.
+## Conclusão
 
-- **#forTe1**
-  - ✅ >= 7 caracteres (7)
-  - ✅ Tem letra maiúscula (T)
-  - ✅ Tem letra minúscula (fore)
-  - ✅ Tem número (1)
-  - ✅ _E tem caracter especial, caso você consiga validar (#)_
-
-- senhafraca
-
-  - ✅ >= 7 caracteres (10)
-  - ❌ Tem letra maiúscula
-  - ✅ Tem letra minúscula (senhafraca)
-  - ❌ Tem número
-
-- Qu@s1
-
-  - ❌ >= 7 caracteres (5)
-  - ✅ Tem letra maiúscula (Q)
-  - ✅ Tem letra minúscula (us)
-  - ✅ Tem número (1)
-  - ✅ _E tem caracter especial, caso você consiga validar (@)_
-
-- **Voce@Consegue!2023**
-  - ✅ >= 7 caracteres (18)
-  - ✅ Tem letra maiúscula (VC)
-  - ✅ Tem letra minúscula (oceonsegue)
-  - ✅ Tem número (2023)
-  - ✅ _E tem caracter especial, caso você consiga validar (@!)_
+Este aplicativo Flutter demonstra uma implementação simples de um validador de senha em um `TextFormField`. Ele fornece um ponto de partida para criar um campo de entrada de senha com lógica de validação personalizada. 
