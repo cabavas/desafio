@@ -2,6 +2,16 @@
 
 Este é um aplicativo simples em Flutter que demonstra o uso de um validador de senha em um `TextFormField`. O aplicativo oferece um campo de entrada de texto onde os usuários podem digitar suas senhas, e o validador verifica se a senha atende a determinados critérios, em tempo real.
 
+## Rodando o projeto
+
+Para executar o projeto no Flutter, você pode usar o comando `flutter run` no terminal ou no prompt de comando na pasta raiz do projeto.
+
+Caso alguma dependência não esteja corretamente instalada, basta executar o comando `flutter pub get` no terminal antes de executar o projeto.
+
+## Rodando os testes
+
+Para executar os testes no Flutter, você pode usar o comando `flutter test` no terminal ou no prompt de comando na pasta raiz do projeto.
+
 ## Dependências
 
 O aplicativo utiliza as seguintes dependências:
